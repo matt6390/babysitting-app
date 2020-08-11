@@ -24,16 +24,31 @@ post "/kids" => 'kids#create'
 patch "/kids/:id" => 'kids#update'
 delete "/kids/:id" => 'kids#destroy'
 
+# Medications
 get "/medications" => 'medications#index'
 get "/medications/:id" => 'medications#show'
 post "/medications" => 'medications#create'
 patch "/medications/:id" => 'medications#update'
 delete "/medications/:id" => 'medications#destroy'
 
+# Kids Medications link
 get "/kids_medications" => 'kids_medications#index'
 get "/kids_medications/:id" => 'kids_medications#show'
 post "/kids_medications" => 'kids_medications#create'
 patch "/kids_medications/:id" => 'kids_medications#update'
 delete "/kids_medications/:id" => 'kids_medications#destroy'
 
+# Allergies
+get "/allergies" => 'allergies#index'
+get "/allergies/:id" => 'allergies#show'
+post "/allergies" => 'allergies#create'
+patch "/allergies/:id" => 'allergies#update'
+delete "/allergies/:id" => 'allergies#destroy'
+
+# Kids Allergy link
+get "/kids_allergies" => 'kids_allergies#index'
+get "/kids_allergies/:id" => 'kids_allergies#show'
+post "/kids_allergies" => 'kids_allergies#create'
+patch "/kids_allergies/:id" => 'kids_allergies#update'
+delete "/kids_allergies/:id" => 'kids_allergies#destroy'
 end

@@ -1,0 +1,5 @@
+json.id kids_allergy.id
+json.kid_id kids_allergy.kid_id
+json.allergy_id kids_allergy.allergy_id
+json.created_at kids_allergy.friendly_created_at
+json.updated_at kids_allergy.friendly_updated_at

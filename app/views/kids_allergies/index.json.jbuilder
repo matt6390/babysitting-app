@@ -1,0 +1,1 @@
+json.array! @kids_allergies, partial: 'kids_allergy', as: :kids_allergy

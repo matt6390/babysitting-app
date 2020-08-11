@@ -1,0 +1,1 @@
+json.array! @allergies, partial: 'allergy', as: :allergy
