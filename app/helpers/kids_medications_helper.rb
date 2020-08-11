@@ -1,0 +1,2 @@
+module KidsMedicationsHelper
+end

@@ -1,0 +1,1 @@
+json.array! @medications, partial: 'medication', as: :medication

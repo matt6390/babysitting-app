@@ -1,0 +1,7 @@
+json.id kids_medication.id
+json.child_id kids_medication.child_id
+json.medication_id kids_medication.medication_id
+json.daily_dosages kids_medication.daily_dosages
+json.dose_size kids_medication.dose_size
+json.created_at kids_medication.friendly_created_at
+json.updated_at kids_medication.friendly_updated_at

@@ -1,11 +1,9 @@
-class Kid < ApplicationRecord
-  validates :first_name, presence: true
-  validates :age, presence: true
-
-  belongs_to :parent
+class Medication < ApplicationRecord
+  validates :name, presence: true
+  validates :description, presence: true
 
   has_many :kids_medications
-  has_many :medications, through: :kids_medications
+  has_many :kids, through: :kids_medications
 
   def friendly_created_at
     created_at.strftime("%e %b %Y %H:%M:%S%p")

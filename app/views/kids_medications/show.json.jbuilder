@@ -1,0 +1,1 @@
+json.partial! @kids_medication, partial: 'kids_medication', as: :kids_medication

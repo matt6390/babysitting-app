@@ -48,6 +48,6 @@ class ParentsController < ApplicationController
   def destroy
     @parent = current_parent
     @parent.delete
-    render json: {message: "Parent deleted successfully"}
+    render json: {message: "Parent deleted successfully"}, status: :ok
   end
 end
