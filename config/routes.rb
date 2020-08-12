@@ -53,11 +53,11 @@ Rails.application.routes.draw do
   delete "/kids_allergies/:id" => 'kids_allergies#destroy'
 
   # Needs
-  get "/kids_needs" => 'kids_needs#index'
-  get "/kids_needs/:id" => 'kids_needs#show'
-  post "/kids_needs" => 'kids_needs#create'
-  patch "/kids_needs/:id" => 'kids_needs#update'
-  delete "/kids_needs/:id" => 'kids_needs#destroy'
+  get "/needs" => 'needs#index'
+  get "/needs/:id" => 'needs#show'
+  post "/needs" => 'needs#create'
+  patch "/needs/:id" => 'needs#update'
+  delete "/needs/:id" => 'needs#destroy'
 
   # kids Needs link
   get "/kids_needs" => 'kids_needs#index'
@@ -65,4 +65,11 @@ Rails.application.routes.draw do
   post "/kids_needs" => 'kids_needs#create'
   patch "/kids_needs/:id" => 'kids_needs#update'
   delete "/kids_needs/:id" => 'kids_needs#destroy'
+
+# reviews
+  get "/reviews" => 'reviews#index'
+  get "/reviews/:id" => 'reviews#show'
+  post "/reviews" => 'reviews#create'
+  patch "/reviews/:id" => 'reviews#update'
+  delete "/reviews/:id" => 'reviews#destroy'
 end
