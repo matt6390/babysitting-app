@@ -1,0 +1,1 @@
+json.array! @babysitter_reviews, partial: 'babysitter_review', as: :babysitter_review

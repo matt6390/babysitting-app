@@ -28,7 +28,7 @@ class ReviewsController < ApplicationController
     @review.rating = params[:rating] || @review.rating
     @review.text = params[:text] || @review.text
     
-    if @rating.save
+    if @review.save
       render json: {message: "Review updated successfully"}, status: :ok
     else
       render json: {message: @review.errors.full_messages}, status: :bad_request

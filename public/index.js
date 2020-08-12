@@ -12,6 +12,28 @@ var HomePage = {
   computed: {}
 };
 
+var ParentsAccountPage = {
+  template: "#parents-account-page",
+  data: function() {
+    return {
+      message: "ParentsAccountPage",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      passwordConfirmation: ""
+    };
+  },
+  created: function() {
+    axios.get("/parents/id").then(function(response) {
+      console.log(response.data);
+    })
+  },
+  methods: {},
+  computed: {}
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -82,11 +104,21 @@ var LoginPage = {
   }
 };
 
+var LogoutPage = {
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
+};
+
 var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
+    { path: "/parents/account", component: ParentsAccountPage },
     { path: "/signup", component: SignupPage },
-    { path: "/login", component: LoginPage}
+    { path: "/login", component: LoginPage},
+    { path: "/logout", component: LogoutPage}
 
   ],
   scrollBehavior: function(to, from, savedPosition) {

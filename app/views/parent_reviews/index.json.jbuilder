@@ -1,0 +1,1 @@
+json.array! @parent_reviews, partial: 'parent_review', as: :parent_review

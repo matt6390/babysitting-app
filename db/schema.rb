@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_030534) do
+ActiveRecord::Schema.define(version: 2020_08_12_145916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(version: 2020_08_12_030534) do
   create_table "allergies", force: :cascade do |t|
     t.string "name"
     t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "babysitter_reviews", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "review_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,6 +60,16 @@ ActiveRecord::Schema.define(version: 2020_08_12_030534) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "address1"
+    t.string "city"
+    t.string "state"
+    t.integer "zip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "parent_id"
+  end
+
   create_table "medications", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -67,13 +84,19 @@ ActiveRecord::Schema.define(version: 2020_08_12_030534) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "parent_reviews", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "review_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "parents", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
     t.string "password_digest"
     t.string "phone_number"
-    t.integer "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

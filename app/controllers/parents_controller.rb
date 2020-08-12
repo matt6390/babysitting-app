@@ -16,7 +16,6 @@ class ParentsController < ApplicationController
       last_name: params[:last_name],
       email: params[:email],
       phone_number: params[:phone_number],
-      location_id: params[:location_id],
       password: params[:password],
       password_confirmation: params[:password_confirmation]
       )

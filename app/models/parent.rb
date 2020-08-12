@@ -8,6 +8,11 @@ class Parent < ApplicationRecord
 
   has_many :kids
 
+  has_one :location
+
+  has_many :parent_reviews
+  has_many :reviews, through: :parent_reviews
+
   def full_name
     first_name + " " + last_name
   end

@@ -4,6 +4,9 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: /@/, message: "Must be a valid email address"}
 
+  has_many :babysitter_reviews
+  has_many :reviews, through: :babysitter_reviews
+
   def friendly_created_at
     created_at.strftime("%e %b %Y %H:%M:%S%p")
   end

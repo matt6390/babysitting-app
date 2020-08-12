@@ -17,6 +17,13 @@ Rails.application.routes.draw do
   patch "/parents/:id" => 'parents#update'
   delete "/parents/:id" => 'parents#destroy'
 
+  # Locations
+  get "/locations" => 'locations#index'
+  get "/locations/:id" => 'locations#show'
+  post "/locations" => 'locations#create'
+  patch "/locations/:id" => 'locations#update'
+  delete "/locations/:id" => 'locations#destroy'
+
   # Kids
   get "/kids" => 'kids#index'
   get "/kids/:id" => 'kids#show'
@@ -72,4 +79,18 @@ Rails.application.routes.draw do
   post "/reviews" => 'reviews#create'
   patch "/reviews/:id" => 'reviews#update'
   delete "/reviews/:id" => 'reviews#destroy'
+
+  # ParentReviews
+  get "/parent_reviews" => 'parent_reviews#index'
+  get "/parent_reviews/:id" => 'parent_reviews#show'
+  post "/parent_reviews" => 'parent_reviews#create'
+  patch "/parent_reviews/:id" => 'parent_reviews#update'
+  delete "/parent_reviews/:id" => 'parent_reviews#destroy'
+
+  # babysitterReviews
+  get "/babysitter_reviews" => 'babysitter_reviews#index'
+  get "/babysitter_reviews/:id" => 'babysitter_reviews#show'
+  post "/babysitter_reviews" => 'babysitter_reviews#create'
+  patch "/babysitter_reviews/:id" => 'babysitter_reviews#update'
+  delete "/babysitter_reviews/:id" => 'babysitter_reviews#destroy'
 end

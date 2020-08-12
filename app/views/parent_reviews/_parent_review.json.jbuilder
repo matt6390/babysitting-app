@@ -1,0 +1,5 @@
+json.id parent_review.id
+json.parent_id parent_review.parent_id
+json.review_id parent_review.review_id
+json.created_at parent_review.friendly_created_at
+json.updated_at parent_review.friendly_updated_at

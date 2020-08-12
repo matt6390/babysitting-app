@@ -1,0 +1,5 @@
+json.id babysitter_review.id
+json.user_id babysitter_review.user_id
+json.review_id babysitter_review.review_id
+json.created_at babysitter_review.friendly_created_at
+json.updated_at babysitter_review.friendly_updated_at
