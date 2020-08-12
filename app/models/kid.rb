@@ -10,6 +10,9 @@ class Kid < ApplicationRecord
   has_many :kids_allergies
   has_many :allergies, through: :kids_allergies
 
+  has_many :kids_needs
+  has_many :needs, through: :kids_needs
+
   def friendly_created_at
     created_at.strftime("%e %b %Y %H:%M:%S%p")
   end

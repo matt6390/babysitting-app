@@ -7,6 +7,9 @@ class Parent < ApplicationRecord
 
   has_many :kids
 
+  def full_name
+    first_name + " " + last_name
+  end
 
   def friendly_created_at
     created_at.strftime("%e %b %Y %H:%M:%S%p")

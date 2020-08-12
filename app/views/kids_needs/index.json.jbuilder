@@ -1,0 +1,1 @@
+json.array! @kids_needs, partial: 'kids_need', as: :kids_need

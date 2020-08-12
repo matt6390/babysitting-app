@@ -1,0 +1,1 @@
+json.array! @needs, partial: 'need', as: :need

@@ -1,0 +1,1 @@
+json.partial! @need, partial: 'need', as: :need
