@@ -17,20 +17,116 @@ var ParentsAccountPage = {
   data: function() {
     return {
       message: "ParentsAccountPage",
+      id: "",
       firstName: "",
       lastName: "",
       email: "",
       phoneNumber: "",
       password: "",
-      passwordConfirmation: ""
+      passwordConfirmation: "",
+      errors: ""
     };
   },
   created: function() {
     axios.get("/parents/id").then(function(response) {
-      console.log(response.data);
+      let parent = response.data;
+      this.id = parent.id
+      this.firstName = parent.first_name;
+      this.lastName = parent.last_name;
+      this.email = parent.email;
+      this.phoneNumber = parent.phone_number;
+
+    }.bind(this)).catch(function(errors) {
+      this.errors = errors.response.data
+      console.log(errors.response.data.message);
     })
   },
-  methods: {},
+  methods: {
+    updateParent: function() {
+      let params = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        phone_number: this.phoneNumber,
+      }
+      if (this.password !== "") {
+        params.password = this.password;
+        params.password_confirmation = this.passwordConfirmation;
+      }
+      console.log(params);
+      axios.patch("/parents/" + this.id, params).then(function(response) {
+        console.log(response.data.message);
+      }.bind(this)).catch(function(errors) {
+        this.errors = errors.response.data.message;
+      }.bind(this))
+    }
+  },
+  computed: {}
+};
+
+var ParentsLocationPage = {
+  template: "#parents-location-page",
+  data: function() {
+    return {
+      message: "ParentsLocationPage",
+      location: null
+    };
+  },
+  created: function() {
+    axios.get("/locations/id").then(function(response) {
+      this.location = response.data;
+    }.bind(this)).catch(function(errors) {
+      console.log(errors.response.data.errors);
+    })
+  },
+  methods: {
+
+  },
+  computed: {
+
+  }
+ }
+
+var ParentsKidsPage = {
+  template: "#parents-kids-page",
+  data: function() {
+    return {
+      message: "ParentsKidsPage",
+      id: "",
+      kids: [],
+      firstName: "",
+      age: null
+    };
+  },
+  created: function() {
+    axios.get("/parents/id").then(function(response) {
+      let parent = response.data;
+      this.id = parent.id;
+      this.kids = parent.kids;
+    }.bind(this)).catch(function(errors) {
+      console.log(errors.response.data.message);
+    })
+  },
+  methods: {
+    addKid: function() {
+     let input = document.getElementById("newKid");
+     input.style.display = "block";
+    },
+    createKid: function() {
+      let params = {
+        first_name: this.firstName,
+        age: this.age
+      }
+
+      // creates a kid, or displays any errors that cause creation to fail
+      axios.post("/kids", params).then(function(response) {
+        this.kids.push(response.data);
+      }.bind(this)).catch(function(errors) {
+        console.log(errors.response.data.error);
+      }.bind(this))
+
+    }
+  },
   computed: {}
 };
 
@@ -116,6 +212,8 @@ var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
     { path: "/parents/account", component: ParentsAccountPage },
+    { path: "/parents/location", component: ParentsLocationPage },
+    { path: "/parents/kids", component: ParentsKidsPage },
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage},
     { path: "/logout", component: LogoutPage}

@@ -6,9 +6,13 @@ class LocationsController < ApplicationController
   end
 
   def show
-    @location = Location.find(params[:id])
+    if current_parent.location
+      @location = current_parent.location
 
-    render "show.json.jbuidler"
+      render "show.json.jbuilder"
+    else 
+      render json: {error: "No Location yet"}, status: :not_found
+    end
   end
 
   def create

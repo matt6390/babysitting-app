@@ -21,6 +21,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
   <div id="vue-app">
@@ -42,12 +43,13 @@
             <li class="active"><a href="/#/">Home</a></li>
             <li class="drop-down"><a href="/#/parents/account">Account</a>
               <ul>
-                <li><a href="/#/parent/account">Account Details</a></li>
+                <li><a href="/#/parents/account">Account Details</a></li>
                 <li class="drop-down"><a href="/#/parents/kids">Kids</a>
                   <ul>
                     <li><a href="#">Deep Drop Down 1</a></li>
                   </ul>
                 </li>
+                <li><a href="/#/parents/location">Address</a></li>
               </ul>
             </li>
           </ul>
@@ -131,33 +133,108 @@
       </div>
       <div class="col-md-7">
         <div class="member">
-          <div class="form-group">
-            <label for="firstName">First Name: </label>
-            <input type="text" name="firstName" v-model="firstName">
-            <label for="lasstName">Last Name: </label>
-            <input type="text" name="lastName" v-model="lastName">
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+          <div class="form">  
+            <div class="form-group">
+              <label for="firstName">First Name: </label>
+              <input type="text" name="firstName" v-model="firstName">
+              <label for="lasstName">Last Name: </label>
+              <input type="text" name="lastName" v-model="lastName">
+            </div>
+            <div class="form-group">
+              <label for="email">Email: </label>
+              <input type="text" name="email" v-model="email">
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number: </label>
+              <input type="text" name="phoneNumber" v-model="phoneNumber">
+            </div>
+            <div class="form-group">
+              <label for="password">New Password: </label>
+              <input type="password" name="password" v-model="password">
+            </div>
+            <div class="form-group">
+              <label for="passwordConfirmation">Re-Enter New Password: </label>
+              <input type="password" name="passwordConfirmation" v-model="passwordConfirmation">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="email">Email: </label>
-            <input type="text" name="email" v-model="email">
-          </div>
-          <div class="form-group">
-            <label for="phoneNumber">Phone Number: </label>
-            <input type="text" name="phoneNumber" v-model="phoneNumber">
-          </div>
-          <div class="form-group">
-            <label for="password">New Password: </label>
-            <input type="password" name="password" v-model="password">
-          </div>
-          <div class="form-group">
-            <label for="passwordConfirmation">Re-Enter New Password: </label>
-            <input type="password" name="passwordConfirmation" v-model="passwordConfirmation">
-          </div>
+          <input type="submit" value="Update Info" v-on:click="updateParent()"></input>
         </div>
       </div>
       <div class="col-md-1"></div>
     </div>
       
+    </div>
+  </div>
+</template>
+
+<template id="parents-kids-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>{{ message }}</h1>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+          <ul>
+            <li>Account Info</li>
+            <li>Kids</li>
+            <li>Address</li>
+          </ul>
+        </div>
+        <div class="col-md-7">
+          <div v-if="kids.length > 0" class="member">
+            <h1>Youve got kids</h1>
+            <ul>
+              <li v-for="kid in kids">
+                {{kid}}
+              </li>
+            </ul>
+
+            <div class="hidden" id="newKid">
+              <h3>Add New Kid: </h3>
+              <div class="form_group">
+                <label for="name">Name: </label>
+                <input type="text" name="name" v-model="firstName">
+                <label for="age">Age: </label>
+                <input type="number" name="age" v-model="age">
+                <input type="submit" value="Submit" v-on:click="createKid()">
+              </div>
+            </div>
+            <input type="submit" value="Did you have another?" v-on:click="addKid()">
+          </div>
+
+
+          <div v-else class="member">
+            <h4>You haven't added your kids yet. Click the button below to get started</h4>
+            <div class="hidden" id="newKid">
+              <h3>Add New Kid: </h3>
+              <div class="form_group">
+                <label for="name">Name: </label>
+                <input type="text" name="name" v-model="firstName">
+                <label for="age">Age: </label>
+                <input type="number" name="age" v-model="age">
+                <input type="submit" value="Submit" v-on:click="createKid()">
+              </div>
+            </div>
+            <input type="submit" value="Add A Kid" v-on:click="addKid()">
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="parents-location-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>{{ message }}</h1>
+
+      <h2 v-if="location">Location Present</h2>
+      <h2 v-else>No Location Present</h2>
     </div>
   </div>
 </template>

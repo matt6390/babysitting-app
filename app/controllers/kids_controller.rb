@@ -10,6 +10,7 @@ class KidsController < ApplicationController
   end
 
   def create
+    # Kids can only be added when a parent is logged in
     if current_parent
       @kid = Kid.new(
         first_name: params[:first_name],
@@ -17,9 +18,9 @@ class KidsController < ApplicationController
         # parent_id: params[:parent_id]
         parent_id: current_parent.id
         )
-
+      # Saves or throws an error
       if @kid.save
-        render json: {message: "Kid created successfully"}, status: :created
+        render "show.json.jbuilder", status: :created
       else
         render json: {message: @kid.errors.full_messages}, status: :bad_request
       end
