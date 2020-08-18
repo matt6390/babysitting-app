@@ -29,6 +29,7 @@ var ParentsAccountPage = {
   },
   created: function() {
     axios.get("/parents/id").then(function(response) {
+      // get the logged in parents info
       let parent = response.data;
       this.id = parent.id
       this.firstName = parent.first_name;
@@ -37,26 +38,30 @@ var ParentsAccountPage = {
       this.phoneNumber = parent.phone_number;
 
     }.bind(this)).catch(function(errors) {
-      this.errors = errors.response.data
-      console.log(errors.response.data.message);
+      // if failed, ask them to log in again
+      router.push("/login");
     })
   },
   methods: {
     updateParent: function() {
+      // parent information
       let params = {
         first_name: this.firstName,
         last_name: this.lastName,
         email: this.email,
         phone_number: this.phoneNumber,
       }
+      // only send password for update if something has been entered
       if (this.password !== "") {
         params.password = this.password;
         params.password_confirmation = this.passwordConfirmation;
       }
-      console.log(params);
+
+      // send info for parent Update
       axios.patch("/parents/" + this.id, params).then(function(response) {
-        console.log(response.data.message);
+        // success
       }.bind(this)).catch(function(errors) {
+        // failed
         this.errors = errors.response.data.message;
       }.bind(this))
     }
@@ -173,11 +178,18 @@ var LoginPage = {
     return {
       email: "",
       password: "",
-      errors: []
+      parentErrors: [],
+      babysitterErrors: []
     };
   },
+  created: function() {
+
+  },
+  mounted: function() {
+    document.getElementById("Parent").style.display = "block";
+  },
   methods: {
-    submit: function() {
+    parentLogin: function() {
       var params = {
         auth: { email: this.email, password: this.password }
       };
@@ -191,11 +203,50 @@ var LoginPage = {
         })
         .catch(
           function(error) {
-            this.errors = ["Invalid email or password."];
+            this.parentErrors = ["Invalid email or password."];
             this.email = "";
             this.password = "";
           }.bind(this)
         );
+    },
+
+    babysitterLogin: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.babysitterErrors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    },
+
+    showLogin: function(login, button) {
+      // make both logins hidden
+      let tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      // Get all elements with class="tablinks" and remove the class "active"
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      // show login and give button active class
+      document.getElementById(login).style.display = "block";
+      document.getElementById(button).className += " active";
+
     }
   }
 };
