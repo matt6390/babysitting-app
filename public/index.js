@@ -149,8 +149,34 @@ var SignupPage = {
       babysitterErrors: []
     };
   },
+  created: function() {
+  },
+  mounted: function() {
+    // Defaults to parent Signup
+    document.getElementById("Parent").style.display = "block";
+  },
   methods: {
-    submit: function() {
+    babysitterSignup: function() {
+      var params = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        phone_number: this.phoneNumber,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.babysitterErrors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    parentSignup: function() {
       var params = {
         first_name: this.firstName,
         last_name: this.lastName,
@@ -166,9 +192,26 @@ var SignupPage = {
         })
         .catch(
           function(error) {
-            this.errors = error.response.data.errors;
+            this.parentErrors = error.response.data.errors;
           }.bind(this)
         );
+    },
+    showSignup: function(login, button) {
+      // make both logins hidden
+      let tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      // Get all elements with class="tablinks" and remove the class "active"
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      // show login and give button active class
+      document.getElementById(login).style.display = "block";
+      document.getElementById(button).className += " active";
+
     }
   }
 };
