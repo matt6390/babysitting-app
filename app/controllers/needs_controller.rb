@@ -18,7 +18,7 @@ class NeedsController < ApplicationController
       )
     if @need.save
       render json: {message: "Need created successfully"}, status: :created
-    end
+    else
       render json: {message: @need.errors.full_messages}, status: :bad_request
     end
   end
@@ -31,7 +31,7 @@ class NeedsController < ApplicationController
 
     if @need.save
       render json: {message: "Need updated successfully"}, status: :ok
-    end
+    else
       render json: {message: @need.errors.full_messages}, status: :bad_request
     end
   end

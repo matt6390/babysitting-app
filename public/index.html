@@ -281,13 +281,13 @@
     <div class="container">
       <!-- Login Tabs for Parents or Babysitter -->
       <div class="tab">
-
+        <!-- Parent Login Tab -->
         <button id="parentLogin" class="tablinks active" v-on:click="showLogin('Parent', 'parentLogin')">Parent Login</button>
-
+        <!-- Babysitter Login Tab -->
         <button id="babysitterLogin" class="tablinks" v-on:click="showLogin('Babysitter', 'babysitterLogin')">Babysitter Login</button>
       </div>
 
-      <!-- Babysitter Login -->
+      <!-- Babysitter Login Tab Body -->
       <div id="Babysitter" class="tabcontent">
         <h3>Babysitter</h3>
         <p>Babysitter Login</p>
@@ -305,7 +305,7 @@
         <button class="btn btn-primary" v-on:click="babysitterLogin()">Login</button>
       </div>
 
-      <!-- Parent Login -->
+      <!-- Parent Login Tab Body-->
       <div id="Parent" class="tabcontent">
         <h3>Parent</h3>
         <p>Parent Login</p>

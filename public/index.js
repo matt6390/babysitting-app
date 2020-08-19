@@ -145,7 +145,8 @@ var SignupPage = {
       phoneNumber: "",
       password: "",
       passwordConfirmation: "",
-      errors: []
+      parentErrors: [],
+      babysitterErrors: []
     };
   },
   methods: {
@@ -186,23 +187,29 @@ var LoginPage = {
 
   },
   mounted: function() {
+    // Defaults to parent login
     document.getElementById("Parent").style.display = "block";
   },
   methods: {
     parentLogin: function() {
+      // parent credentials
       var params = {
         auth: { email: this.email, password: this.password }
       };
+      // POST call to login
       axios
         .post("/parent_token", params)
         .then(function(response) {
+          // Parent Login Success
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
+          // go to home page
           router.push("/");
         })
         .catch(
           function(error) {
+            // login failed
             this.parentErrors = ["Invalid email or password."];
             this.email = "";
             this.password = "";
@@ -211,19 +218,24 @@ var LoginPage = {
     },
 
     babysitterLogin: function() {
+      // Babysitters credentials
       var params = {
         auth: { email: this.email, password: this.password }
       };
+      // Post for babysitter login
       axios
         .post("/user_token", params)
         .then(function(response) {
+          // Login Success
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
+          // go to home screen
           router.push("/");
         })
         .catch(
           function(error) {
+            // login failed
             this.babysitterErrors = ["Invalid email or password."];
             this.email = "";
             this.password = "";

@@ -6,14 +6,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
+    if current_user
+      @user = current_user
 
-    render "show.json.jbuilder"
+      render "show.json.jbuilder"
+    else
+      render json: {message: "Must Log In"}, status: :unauthorized_user
+    end
   end
 
   def create
     @user = User.new(
-      name: params[:name],
+      first_name: params[:first_name],
+      last_name: params[:last_name],
       email: params[:email],
       password: params[:password],
       password_confirmation: params[:password_confirmation]
@@ -43,7 +48,7 @@ class UsersController < ApplicationController
   def destroy
     @user = current_user
     @user.delete
-    render json: {"message: User deleted"}
+    render json: {message: "User deleted"}, status: :ok
   end
 end
 
