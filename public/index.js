@@ -74,18 +74,65 @@ var ParentsLocationPage = {
   data: function() {
     return {
       message: "ParentsLocationPage",
-      location: null
+      location: null,
+      address1: "",
+      city: "",
+      state: "",
+      zip: null,
+      errors: []
     };
   },
   created: function() {
     axios.get("/locations/id").then(function(response) {
-      this.location = response.data;
+      this.location = response.data.id;
+      this.address1 = response.data.address1;
+      this.city = response.data.city;
+      this.state = response.data.state;
+      this.zip = response.data.zip;
     }.bind(this)).catch(function(errors) {
-      console.log(errors.response.data.errors);
+      console.log(errors.response.data.error);
     })
   },
   methods: {
+    submitLocation: function() {
+      // Location data
+      let params = {
+        address1: this.address1,
+        city: this.city,
+        state: this.state,
+        zip: this.zip
+      }
 
+      // Add Location to database
+      axios.post("/locations", params).then(function(response) {
+        this.errors = [];
+
+        this.location = true;
+        this.address1 = response.data.address1;
+        this.city = response.data.city;
+        this.state = response.data.state;
+        this.zip = response.data.zip;
+      }.bind(this)).catch(function(errors) {
+        this.errors = errors.response.data.errors;
+      }.bind(this))
+    },
+    updateLocation: function() {
+      // Location data
+      let params = {
+        address1: this.address1,
+        city: this.city,
+        state: this.state,
+        zip: this.zip
+      }
+
+      // Add Location to database
+      axios.patch("/locations/" + this.location, params).then(function(response) {
+        this.errors = [];
+        this.location = true;
+      }.bind(this)).catch(function(errors) {
+        this.errors = errors.response.data.errors;
+      }.bind(this))
+    }
   },
   computed: {
 

@@ -233,10 +233,69 @@
 <template id="parents-location-page">
   <div class="vue-component">
     <div class="container">
-      <h1>{{ message }}</h1>
+      <h1>{{message}}</h1>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+          <ul>
+            <li>Account Info</li>
+            <li>Kids</li>
+            <li>Address</li>
+          </ul>
+        </div>
+        <div class="col-md-7">
 
-      <h2 v-if="location">Location Present</h2>
-      <h2 v-else>No Location Present</h2>
+          <div v-if="location" class="member">
+            <h4>Update your Location</h4>
+            <ul>
+              <li class="text-danger" v-for="error in errors">{{ error }}</li>
+            </ul>
+            <div class="form">
+              <div class="form-group">
+                <label for="address1">Street Address: </label>
+                <input type="text" name="address1" v-model="address1">
+              </div>
+              <div class="form-group">
+                <label for="city">City: </label>
+                <input type="text" name="city" v-model="city">
+                <label for="state">State: </label>
+                <input type="text" name="state" v-model="state">
+              </div>
+              <div class="form-group">
+                <label for="zip">Zipcode: </label>
+                <input type="number" name="zip" v-model="zip">
+              </div>
+              <input type="submit" value="Update Location" v-on:click="updateLocation()">
+            </div>
+          </div>
+
+          <div v-else class="member">
+            <h4>Please Enter your Location</h4>
+            <ul>
+              <li class="text-danger" v-for="error in errors">{{ error }}</li>
+            </ul>
+            <div class="form">
+              <div class="form-group">
+                <label for="address1">Street Address: </label>
+                <input type="text" name="address1" v-model="address1">
+              </div>
+              <div class="form-group">
+                <label for="city">City: </label>
+                <input type="text" name="city" v-model="city">
+                <label for="state">State: </label>
+                <input type="text" name="state" v-model="state">
+              </div>
+              <div class="form-group">
+                <label for="zip">Zipcode: </label>
+                <input type="number" name="zip" v-model="zip">
+              </div>
+              <input type="submit" value="Submit Location" v-on:click="submitLocation()">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -244,14 +303,13 @@
 <template id="signup-page">
   <div class="vue-component">
     <div class="container">
-
+      <!-- Signup Tabs -->
       <div class="tab">
-        <!-- Parent Login Tab -->
+        <!-- Parent Signup Tab -->
         <button id="parentSignup" class="tablinks active" v-on:click="showSignup('Parent', 'parentSignup')">Parent SignUp</button>
-        <!-- Babysitter Login Tab -->
+        <!-- Babysitter Signup Tab -->
         <button id="babysitterSignup" class="tablinks" v-on:click="showSignup('Babysitter', 'babysitterSignup')">Babysitter SignUp</button>
       </div>
-
       <!-- Parent Tab Content -->
       <div id="Parent" class="tabcontent">
         <h1>Parent Signup</h1>
@@ -319,7 +377,6 @@
 
 <template id="login-page">
   <div class="vue-component">
-
     <div class="container">
       <!-- Login Tabs for Parents or Babysitter -->
       <div class="tab">
@@ -328,7 +385,6 @@
         <!-- Babysitter Login Tab -->
         <button id="babysitterLogin" class="tablinks" v-on:click="showLogin('Babysitter', 'babysitterLogin')">Babysitter Login</button>
       </div>
-
       <!-- Babysitter Login Tab Body -->
       <div id="Babysitter" class="tabcontent">
         <h3>Babysitter</h3>
@@ -346,7 +402,6 @@
         </div>
         <button class="btn btn-primary" v-on:click="babysitterLogin()">Login</button>
       </div>
-
       <!-- Parent Login Tab Body-->
       <div id="Parent" class="tabcontent">
         <h3>Parent</h3>
@@ -365,6 +420,5 @@
         <button class="btn btn-primary" v-on:click="parentLogin()">Login</button>
       </div>
     </div>
-
   </div>
 </template>

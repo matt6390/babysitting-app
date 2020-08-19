@@ -27,7 +27,7 @@ class LocationsController < ApplicationController
       if @location.save
         render json: {message: "Location created successfully"}, status: :created
       else
-        render json: {message: @location.errors.full_messages}, status: :bad_request
+        render json: {errors: @location.errors.full_messages}, status: :bad_request
       end
     else
       render json: {message: "Please log in"}, status: :bad_request
@@ -46,7 +46,7 @@ class LocationsController < ApplicationController
     if @location.save
       render json: {message: "Location updated successfully"}, status: :ok
     else
-      render json: {message: @location.errors.full_messages}, status: :bad_request
+      render json: {errors: @location.errors.full_messages}, status: :bad_request
     end
   end
 
