@@ -1,9 +1,16 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+    search_zip = params[:zip]
+
+    if search_zip
+      @users = User.where("zip = ?", search_zip)
+    end
 
     render "index.json.jbuilder"
   end
+
+  
 
   def show
     if current_user
@@ -20,6 +27,7 @@ class UsersController < ApplicationController
       first_name: params[:first_name],
       last_name: params[:last_name],
       email: params[:email],
+      zip: params[:zip],
       password: params[:password],
       password_confirmation: params[:password_confirmation]
       )

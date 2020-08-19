@@ -192,6 +192,7 @@ var SignupPage = {
       phoneNumber: "",
       password: "",
       passwordConfirmation: "",
+      zipcode: null,
       parentErrors: [],
       babysitterErrors: []
     };
@@ -209,6 +210,7 @@ var SignupPage = {
         last_name: this.lastName,
         email: this.email,
         phone_number: this.phoneNumber,
+        zip: this.zipcode,
         password: this.password,
         password_confirmation: this.passwordConfirmation
       };
