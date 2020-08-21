@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :email, format: { with: /@/, message: "Must be a valid email address"}
   validates :zip, presence: true 
   validates :zip, numericality: true
+  validates :max_kids, presence: true 
+
 
   has_many :babysitter_reviews
   has_many :reviews, through: :babysitter_reviews

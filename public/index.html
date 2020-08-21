@@ -41,7 +41,7 @@
         <nav class="nav-menu d-none d-lg-block">
           <ul>
             <li class="active"><a href="/#/">Home</a></li>
-            <li class="drop-down"><a href="/#/parents/account">Account</a>
+            <li class="drop-down"><a id="accountPage" href="/#/parents/account">Account</a>
               <ul>
                 <li><a href="/#/parents/account">Account Details</a></li>
                 <li class="drop-down"><a href="/#/parents/kids">Kids</a>
@@ -115,6 +115,18 @@
   <div class="vue-component">
     <div class="container">
       <h1>{{ message }}</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="row">
+      <input type="number" placeholder="Enter your zip code" v-model="zip">
+      <input type="submit" name="Find Babysitters Near Me" v-on:click="findBabysitters()">
+      </div>
+      <div class="row">
+        <div v-for="babysitter in babysitters">
+          <p>{{babysitter}}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -317,25 +329,25 @@
           <li class="text-danger" v-for="error in parentErrors">{{ error }}</li>
         </ul>
         <div class="form-group">
-          <label>First Name:</label> 
+          <label>First Name: </label> 
           <input type="text" class="form-control" v-model="firstName">
-          <label>Last Name:</label> 
+          <label>Last Name: </label> 
           <input type="text" class="form-control" v-model="lastName">
         </div>
         <div class="form-group">
-          <label>Email:</label>
+          <label>Email: </label>
           <input type="email" class="form-control" v-model="email">
         </div>
         <div class="form-group">
-          <label>Phone Number:</label>
+          <label>Phone Number: </label>
           <input type="text" class="form-control" v-model="phoneNumber">
         </div>
         <div class="form-group">
-          <label>Password:</label>
+          <label>Password: </label>
           <input type="password" class="form-control" v-model="password">
         </div>
         <div class="form-group">
-          <label>Password confirmation:</label>
+          <label>Password confirmation: </label>
           <input type="password" class="form-control" v-model="passwordConfirmation">
         </div>
         <button class="btn btn-primary" v-on:click="parentSignup()">SignUp</button>
@@ -347,21 +359,25 @@
           <li class="text-danger" v-for="error in babysitterErrors">{{ error }}</li>
         </ul>
         <div class="form-group">
-          <label>First Name:</label> 
+          <label>First Name: </label> 
           <input type="text" class="form-control" v-model="firstName">
-          <label>Last Name:</label> 
+          <label>Last Name: </label> 
           <input type="text" class="form-control" v-model="lastName">
         </div>
         <div class="form-group">
-          <label>Email:</label>
+          <label>Email: </label>
           <input type="email" class="form-control" v-model="email">
         </div>
         <div class="form-group">
-          <label>Phone Number:</label>
+          <label>Phone Number: </label>
           <input type="text" class="form-control" v-model="phoneNumber">
         </div>
         <div class="form-group">
-          <label>Preferred Working Zipcode:</label>
+          <label>Preferred Working Zipcode: </label>
+          <input type="number" class="form-control" v-model="zipcode">
+        </div>
+        <div class="form-group">
+          <label>How many kids are you comfortable babysitting at a time: </label>
           <input type="number" class="form-control" v-model="zipcode">
         </div>
         <div class="form-group">

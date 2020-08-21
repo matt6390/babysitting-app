@@ -4,11 +4,38 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!"
+      message: "Welcome to Vue.js!",
+      account: this.$route.params.id,
+      zip: null,
+      babysitters: [],
+      errors: []
     };
   },
-  created: function() {},
-  methods: {},
+  created: function() {
+  },
+  mounted: function() {
+    if (this.account) {
+      document.getElementById("accountPage").href = "/#/" + this.account + "/account";
+    }
+  },
+  methods: {
+    findBabysitters: function() {
+      this.errors = [];
+      if (this.zip && this.zip.length === 5) {
+        // Set babysitters to empty in case more than 1 request per page visit
+        this.babysitters = [];
+        // Get all babysitters with a provided zipcode
+        // Will not return anything if no zip is provided
+        // Since that would be all the babyistters
+        axios.get("/users/?zip=" + this.zip).then(function(response) {
+          this.babysitters = response.data;
+        }.bind(this)).catch(function(errors) {
+        }.bind(this));
+      } else {
+        this.errors = ["Zip Code must be 5 digits"];
+      }
+    }
+  },
   computed: {}
 };
 
@@ -31,7 +58,7 @@ var ParentsAccountPage = {
     axios.get("/parents/id").then(function(response) {
       // get the logged in parents info
       let parent = response.data;
-      this.id = parent.id
+      this.id = parent.id;
       this.firstName = parent.first_name;
       this.lastName = parent.last_name;
       this.email = parent.email;
@@ -40,7 +67,7 @@ var ParentsAccountPage = {
     }.bind(this)).catch(function(errors) {
       // if failed, ask them to log in again
       router.push("/login");
-    })
+    });
   },
   methods: {
     updateParent: function() {
@@ -50,7 +77,7 @@ var ParentsAccountPage = {
         last_name: this.lastName,
         email: this.email,
         phone_number: this.phoneNumber,
-      }
+      };
       // only send password for update if something has been entered
       if (this.password !== "") {
         params.password = this.password;
@@ -60,10 +87,11 @@ var ParentsAccountPage = {
       // send info for parent Update
       axios.patch("/parents/" + this.id, params).then(function(response) {
         // success
+        this.errors = [];
       }.bind(this)).catch(function(errors) {
         // failed
         this.errors = errors.response.data.message;
-      }.bind(this))
+      }.bind(this));
     }
   },
   computed: {}
@@ -91,7 +119,7 @@ var ParentsLocationPage = {
       this.zip = response.data.zip;
     }.bind(this)).catch(function(errors) {
       console.log(errors.response.data.error);
-    })
+    });
   },
   methods: {
     submitLocation: function() {
@@ -101,20 +129,15 @@ var ParentsLocationPage = {
         city: this.city,
         state: this.state,
         zip: this.zip
-      }
+      };
 
       // Add Location to database
       axios.post("/locations", params).then(function(response) {
         this.errors = [];
-
         this.location = true;
-        this.address1 = response.data.address1;
-        this.city = response.data.city;
-        this.state = response.data.state;
-        this.zip = response.data.zip;
       }.bind(this)).catch(function(errors) {
         this.errors = errors.response.data.errors;
-      }.bind(this))
+      }.bind(this));
     },
     updateLocation: function() {
       // Location data
@@ -123,7 +146,7 @@ var ParentsLocationPage = {
         city: this.city,
         state: this.state,
         zip: this.zip
-      }
+      };
 
       // Add Location to database
       axios.patch("/locations/" + this.location, params).then(function(response) {
@@ -131,13 +154,11 @@ var ParentsLocationPage = {
         this.location = true;
       }.bind(this)).catch(function(errors) {
         this.errors = errors.response.data.errors;
-      }.bind(this))
+      }.bind(this));
     }
   },
-  computed: {
-
-  }
- }
+  computed: {}
+};
 
 var ParentsKidsPage = {
   template: "#parents-kids-page",
@@ -157,25 +178,25 @@ var ParentsKidsPage = {
       this.kids = parent.kids;
     }.bind(this)).catch(function(errors) {
       console.log(errors.response.data.message);
-    })
+    });
   },
   methods: {
     addKid: function() {
-     let input = document.getElementById("newKid");
-     input.style.display = "block";
+      let input = document.getElementById("newKid");
+      input.style.display = "block";
     },
     createKid: function() {
       let params = {
         first_name: this.firstName,
         age: this.age
-      }
+      };
 
       // creates a kid, or displays any errors that cause creation to fail
       axios.post("/kids", params).then(function(response) {
         this.kids.push(response.data);
       }.bind(this)).catch(function(errors) {
         console.log(errors.response.data.error);
-      }.bind(this))
+      }.bind(this));
 
     }
   },
@@ -190,6 +211,7 @@ var SignupPage = {
       lastName: "",
       email: "",
       phoneNumber: "",
+      maxKids: null,
       password: "",
       passwordConfirmation: "",
       zipcode: null,
@@ -197,8 +219,7 @@ var SignupPage = {
       babysitterErrors: []
     };
   },
-  created: function() {
-  },
+  created: function() {},
   mounted: function() {
     // Defaults to parent Signup
     document.getElementById("Parent").style.display = "block";
@@ -211,6 +232,7 @@ var SignupPage = {
         email: this.email,
         phone_number: this.phoneNumber,
         zip: this.zipcode,
+        max_kids: this.maxKids,
         password: this.password,
         password_confirmation: this.passwordConfirmation
       };
@@ -248,12 +270,12 @@ var SignupPage = {
     showSignup: function(login, button) {
       // make both logins hidden
       let tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
+      for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
       // Get all elements with class="tablinks" and remove the class "active"
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
+      let tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
 
@@ -286,7 +308,10 @@ var LoginPage = {
     parentLogin: function() {
       // parent credentials
       var params = {
-        auth: { email: this.email, password: this.password }
+        auth: {
+          email: this.email,
+          password: this.password
+        }
       };
       // POST call to login
       axios
@@ -297,7 +322,7 @@ var LoginPage = {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           // go to home page
-          router.push("/");
+          router.push("/parents");
         })
         .catch(
           function(error) {
@@ -312,7 +337,10 @@ var LoginPage = {
     babysitterLogin: function() {
       // Babysitters credentials
       var params = {
-        auth: { email: this.email, password: this.password }
+        auth: {
+          email: this.email,
+          password: this.password
+        }
       };
       // Post for babysitter login
       axios
@@ -323,7 +351,7 @@ var LoginPage = {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           // go to home screen
-          router.push("/");
+          router.push("/babysitter");
         })
         .catch(
           function(error) {
@@ -338,12 +366,12 @@ var LoginPage = {
     showLogin: function(login, button) {
       // make both logins hidden
       let tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
+      for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
       // Get all elements with class="tablinks" and remove the class "active"
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
+      let tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
 
@@ -364,18 +392,36 @@ var LogoutPage = {
 };
 
 var router = new VueRouter({
-  routes: [
-    { path: "/", component: HomePage },
-    { path: "/parents/account", component: ParentsAccountPage },
-    { path: "/parents/location", component: ParentsLocationPage },
-    { path: "/parents/kids", component: ParentsKidsPage },
-    { path: "/signup", component: SignupPage },
-    { path: "/login", component: LoginPage},
-    { path: "/logout", component: LogoutPage}
-
-  ],
+  routes: [{
+    path: "/",
+    component: HomePage
+  }, {
+    path: "/parents/account",
+    component: ParentsAccountPage
+  }, {
+    path: "/parents/location",
+    component: ParentsLocationPage
+  }, {
+    path: "/parents/kids",
+    component: ParentsKidsPage
+  }, {
+    path: "/signup",
+    component: SignupPage
+  }, {
+    path: "/login",
+    component: LoginPage
+  }, {
+    path: "/logout",
+    component: LogoutPage
+  }, {
+    path: "/:id",
+    component: HomePage
+  }],
   scrollBehavior: function(to, from, savedPosition) {
-    return { x: 0, y: 0 };
+    return {
+      x: 0,
+      y: 0
+    };
   }
 });
 var app = new Vue({
